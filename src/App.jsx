@@ -12,8 +12,16 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import ConsentForm from './components/auth/ConsentForm';
 import Verify from './components/public/Verify';
+import Landing from './components/public/Landing';
+import Certified from './components/public/Certified';
+import Privacy from './components/public/Privacy';
+import About from './components/public/About';
+import Schemes_ from './components/public/Schemes';
+import Operators from './components/public/Operators';
+import StaffInfo from './components/public/Staff';
 
 import ClientDashboard from './components/client/Dashboard';
+import ClientFarmers from './components/client/Farmers';
 import ClientApplication from './components/client/ApplicationDetail';
 import InspectorDashboard from './components/inspector/Dashboard';
 import InspectionWorkspace from './components/inspector/InspectionWorkspace';
@@ -58,12 +66,20 @@ const AuthOnly = ({ children }) => {
 function AppRoutes() {
   return (
     <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/certified" element={<Certified />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/schemes" element={<Schemes_ />} />
+      <Route path="/operators" element={<Operators />} />
+      <Route path="/staff" element={<StaffInfo />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/verify" element={<Verify />} />
       <Route path="/consent" element={<AuthOnly><ConsentForm /></AuthOnly>} />
 
       <Route path="/dashboard" element={guard(<Home />)} />
+      <Route path="/farmers" element={guard(<ClientFarmers />, ['client'])} />
       <Route path="/applications/:id" element={guard(<ApplicationRouter />)} />
       <Route path="/inspections/:id" element={guard(<InspectionWorkspace />, ['inspector'])} />
       <Route path="/manager/certificates" element={guard(<Certificates />, ['manager', 'admin'])} />

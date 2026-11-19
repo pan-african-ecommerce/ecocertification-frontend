@@ -12,3 +12,12 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+/* Landing page: the seal presses once on load */
+@keyframes seal-press {
+  0%   { transform: scale(1.5) rotate(-12deg); opacity: 0; }
+  60%  { transform: scale(0.94) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+.seal-stamp { animation: seal-press 0.6s 0.35s cubic-bezier(.2,.8,.3,1) both; }
+@media (prefers-reduced-motion: reduce) { .seal-stamp { animation: none; } }

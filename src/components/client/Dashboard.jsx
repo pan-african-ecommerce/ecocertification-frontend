@@ -22,10 +22,12 @@ const ClientDashboard = () => {
   const [company, setCompany] = useState(null);
   const [form, setForm] = useState({ scheme: '', scope_description: '' });
   const [busy, setBusy] = useState(false);
+  const [farmerCount, setFarmerCount] = useState(0);
 
   const load = async () => {
     const [a, s, c] = await Promise.all([API.applications(), API.schemes(), API.myCompany()]);
     setApps(a); setSchemes(s); setCompany(c);
+    API.farmerSummary().then((x) => setFarmerCount(x.farmers)).catch(() => {});
   };
   useEffect(() => { load(); }, []);
 
@@ -43,6 +45,18 @@ const ClientDashboard = () => {
 
   return (
     <Page title={company?.company_name || 'My applications'} subtitle="Your certification applications and what to do next">
+      {(farmerCount === 0 || apps.length === 0) && (
+        <Card title="Get started">
+          <ol className="space-y-3 text-sm">
+            <li className="flex items-start gap-3"><span className="text-green-600 font-bold">✓</span><span>Account created for {company?.company_name}</span></li>
+            <li className="flex items-start gap-3"><span className={farmerCount ? 'text-green-600 font-bold' : 'text-gray-400 font-bold'}>{farmerCount ? '✓' : '2'}</span>
+              <span>Register your farmers. <Link to="/farmers" className="text-primary-700 underline">{farmerCount ? `${farmerCount} registered, add more` : 'Add farmers or import a CSV'}</Link></span></li>
+            <li className="flex items-start gap-3"><span className={apps.length ? 'text-green-600 font-bold' : 'text-gray-400 font-bold'}>{apps.length ? '✓' : '3'}</span>
+              <span>{apps.length ? 'Application started' : 'Choose a certification scheme below and start your application'}</span></li>
+          </ol>
+        </Card>
+      )}
+
       <Card title="Applications">
         {apps.length === 0 ? <Empty>No applications yet. Start one below.</Empty> : (
           <div className="divide-y">
@@ -70,7 +84,7 @@ const ClientDashboard = () => {
                 {available.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
               </select>
             </Field>
-            <Field label="Scope (products / sites)" hint="e.g. Washed Arabica coffee, 3 farms in Sidama">
+            <Field label="Scope (products / sites)" hint="e.g. Washed Arabica coffee, Sidama region. This is public on your certificate: do not enter people’s names.">
               <input className={inputCls} value={form.scope_description} onChange={(e) => setForm({ ...form, scope_description: e.target.value })} />
             </Field>
             <div className="sm:col-span-2"><Button type="submit" busy={busy}>Start application</Button></div>

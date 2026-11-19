@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const NAV = {
-  client: [['/dashboard', 'My applications']],
+  client: [['/dashboard', 'My applications'], ['/farmers', 'My farmers']],
   inspector: [['/dashboard', 'My inspections']],
   verifier: [['/dashboard', 'Review queue']],
   manager: [['/dashboard', 'Pipeline'], ['/manager/certificates', 'Certificates'], ['/manager/staff', 'Staff'],

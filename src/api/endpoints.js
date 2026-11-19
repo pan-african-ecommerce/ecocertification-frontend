@@ -26,6 +26,14 @@ const API = {
   myCompany: () => http.get('/clients/me/').then((r) => r.data),
   updateCompany: (id, d) => http.patch(`/clients/${id}/`, d),
 
+  // farmers
+  farmers: (params) => http.get('/farmers/', { params }).then(list),
+  farmerSummary: (params) => http.get('/farmers/summary/', { params }).then((r) => r.data),
+  createFarmer: (d) => http.post('/farmers/', d),
+  updateFarmer: (id, d) => http.patch(`/farmers/${id}/`, d),
+  deleteFarmer: (id) => http.delete(`/farmers/${id}/`),
+  importFarmers: (file) => http.post('/farmers/import/', form({ file })),
+
   // applications
   applications: (params) => http.get('/applications/', { params }).then(list),
   application: (id) => http.get(`/applications/${id}/`).then((r) => r.data),
@@ -69,6 +77,7 @@ const API = {
   setCertStatus: (id, d) => http.post(`/certificates/${id}/set-status/`, d),
 
   // public
+  certifiedRegister: (params) => http.get('/certificates/register/', { params, silent: true }).then((r) => r.data),
   verifyCertificate: (q) => http.get('/certificates/public/', { params: { q }, silent: true }),
 
   // audit

@@ -56,6 +56,7 @@ const Register = () => {
             </Field>
           ))}
         </div>
+        <p className="text-xs text-gray-500 mb-3">Your company details are private. Only the company name, country and certificate details are public once you are certified. <Link to="/privacy" className="text-primary-700 underline">How we handle data</Link></p>
         <Button type="submit" busy={busy} className="w-full mt-2">Create account</Button>
         <p className="text-center text-sm text-gray-600 mt-4">
           Already registered? <Link className="text-primary-600 font-medium" to="/login">Sign in</Link>

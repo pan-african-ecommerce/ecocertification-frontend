@@ -4,6 +4,7 @@ import API from '../../api/endpoints';
 import { downloadFile } from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../common/LoadingSpinner';
+import FarmerTable from '../shared/FarmerTable';
 import { Page, Card, Badge, Button, Field, inputCls, Empty, fmt, fmtDate, run } from '../ui';
 
 const RES = { conform: ['Conform', 'text-green-700'], nonconform: ['Non-conform', 'text-red-700'], na: ['N/A', 'text-gray-500'] };
@@ -36,6 +37,18 @@ const Documents = ({ app, reload, canReview }) => {
           )}
         </div>
       ))}
+    </Card>
+  );
+};
+
+const ClientFarmers = ({ clientId }) => {
+  const [farmers, setFarmers] = useState(null);
+  useEffect(() => { API.farmers({ client: clientId }).then(setFarmers).catch(() => setFarmers([])); }, [clientId]);
+  if (!farmers) return null;
+  const ha = farmers.filter((f) => f.is_active).reduce((t, f) => t + Number(f.farm_size_ha || 0), 0);
+  return (
+    <Card title={`Registered farmers (${farmers.length}, ${ha.toFixed(1)} ha)`}>
+      <FarmerTable farmers={farmers} />
     </Card>
   );
 };
@@ -196,6 +209,7 @@ const StaffApplication = () => {
 
       {app.status === 'rejected' && <Card title="Rejected"><p className="text-sm">{app.decision_notes}</p></Card>}
       <Documents app={app} reload={load} canReview={canReview} />
+      <ClientFarmers clientId={app.client} />
       {isManager && (app.status === 'ready_for_inspection' || (app.status === 'inspection' && !active)) && <Assign app={app} reload={load} />}
       {insps.map((i) => <InspectionReport key={i.id} insp={i} app={app} reload={load} canVerify={isManager || isVerifier} isManager={isManager} />)}
       {isManager && app.status === 'decision' && <Decision app={app} reload={load} />}
