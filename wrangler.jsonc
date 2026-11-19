@@ -1,8 +1,8 @@
 {
   "name": "ecocertification-frontend",
-  "compatibility_date": "2025-01-01",
+  "compatibility_date": "2024-01-01",
   "assets": {
-    "directory": "./build",
+    "directory": "./public",
     "not_found_handling": "single-page-application"
   }
 }
