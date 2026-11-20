@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-export const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+const PROD_API = 'https://responsible-rebirth-production-79053fb3.up.railway.app/api';
+const isLocal = typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
+export const API_URL = (process.env.REACT_APP_API_URL || (isLocal ? 'http://localhost:8000/api' : PROD_API)).replace(/\/+$/, '');
 
 const axiosInstance = axios.create({ baseURL: API_URL, timeout: 60000 });
 
