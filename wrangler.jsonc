@@ -1,9 +1,9 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ecocertification-frontend",
+  "name": "ecocertification-app",
   "compatibility_date": "2024-11-01",
   "assets": {
-    "directory": "./dist",
+    "directory": "./build",
     "not_found_handling": "single-page-application"
   }
 }
